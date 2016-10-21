@@ -1,0 +1,165 @@
+<!--Alexandre MATHIEU-->
+<!DOCTYPE>
+<html>
+<head>
+<meta charset="UTF-8" />
+<meta name="author" content="Alexandre MATHIEU" />
+<title>&Eacute;nonc&eacute; 1 - POO</title>
+<style>
+	table, td{
+		border: 1px solid black;
+		border-collapse: collapse;
+	}
+</style>
+<script>
+// Objet JSON
+var aeroportZaventem = {
+	dénomination: 'Zaventem',
+	capaciter: 50,
+	avionStationner: [
+		{
+			TypeAvion: 'Airbus A350',
+			pilote: 'Lucille',
+			dateArriver: new Date(2015,5,20),
+			enReparation: false
+		},
+		{
+			TypeAvion: 'Boeing 747',
+			pilote: 'Jack',
+			dateArriver: new Date(2015,5,22),
+			enReparation: true
+
+		},
+		{
+			TypeAvion: 'Antonov An-225',
+			pilote: 'Natalya',
+			dateArriver: new Date(2015,5,23),
+			enReparation: false
+
+		}
+	]
+};
+//Test d'un objet JSON
+console.log(aeroportZaventem);
+console.log(aeroportZaventem.avionStationner);
+
+//L'objet Aeroport
+function Aeroport(dénomination, capaciter){
+	this.dénomination = dénomination;
+	this.capaciter = capaciter;
+	this.avionStationner = [];
+}
+//test - Création d'un objet Aeroport
+var aeroportParis = new Aeroport('Paris', 55);
+console.log(aeroportParis);
+
+//L'objet Avion
+function Avion(TypeAvion, pilote, dateArriver){
+	this.TypeAvion = TypeAvion;
+	this.pilote = pilote;
+	this.dateArriver = dateArriver;
+	this.enReparation = false;
+}  
+//test - Création d'un objet Avion
+var airbus = new Avion('Airbus A370', 'R2D2',new Date(2015,6,21));
+console.log(airbus);
+
+//Méthode qui permet de d'ajouter un avion dans l'objet Aeroport
+Aeroport.prototype.ajoutAvion =function(addAvion){
+	//Conditions qui verifies si l'objet entré en parametre est bien de type avion
+	//et que la capaciter de l'aeroport est superieur à zero
+	if(addAvion instanceof Avion){
+		if(this.capaciter > 0){
+			this.avionStationner.push(addAvion);
+			return true;
+		}
+		return false;
+	}
+	else{
+		throw "Echec de l'ajout - "+addAvion.dénomination+" n'est pas un avion";
+	}
+}
+
+//test de la méthode Ajout
+var charleroi = new Aeroport('Charleroi',20);
+var boeing = new Avion('Boeing 787', 'Yoda',new Date(2015,1,24));
+var ajout = charleroi.ajoutAvion(boeing);
+charleroi += charleroi.ajoutAvion(boeing);
+console.log(charleroi);
+
+
+//Méthode qui permet de récupérer un tableau de tous les Avions stationnés
+Aeroport.prototype.tabAvion = function(info){
+	var avionStationner = this.avionStationner;
+	
+	var tabAvion = new Array();
+	for(var i=0; i<avionStationner.length; i++){
+		if(avionStationner[i].enReparation == info) {
+			tabAvion.push(avionStationner[i]);
+		}
+	}
+	return tabAvion;
+}
+// test de la méthode tabAvion
+console.log();
+
+//Méthode qui permet de savoir combien de jours un avion est resté sur le tarmac
+Avion.prototype.Jours = function(dateDepart){
+	var jours = new Date();
+	var arriver = this.dateArriver.getDay();
+	var depart = dateDepart.getDay(); 
+	jours = depart - arriver;
+	
+	return jours
+
+}
+
+//test de la méthode Jours
+var testDepart = new Date(2015,1,25);
+console.log(testDepart);
+
+//Méthode toString de l'objet Aeroport
+Aeroport.prototype.toString = function(){
+	var avion = this.avionStationner;
+	var places = this.capaciter - avion.length; 
+	
+	var str = '<h1>A&eacute;roport de '+this.dénomination+'</h1></ br>';
+	
+	str += '<table>';
+	for(var i=0; i<avion.length; i++){
+		str += '<tr><td>'+avion[i]+'</td></tr>';
+	}
+	str += '</table></ br>';
+	str += 'Places restantes:'+ places;
+	return str;
+}
+//test de la méthode Aeroport.toString 
+var london = new Aeroport('London',60);
+console.log(london.toString());
+
+//Méthode toString de l'objet Avion
+Avion.prototype.toString = function(){
+	
+	var jour, mois,annee
+	jour = this.dateArriver.getDate();
+	mois = this.dateArriver.getMonth()+1;
+	annee = this.dateArriver.getFullYear();
+	
+	var str = this.TypeAvion +' piloté par '+this.pilote;
+	str += jour+'-'+'0'+mois+'-'+annee;
+	str += this.enReparation ? ' (en réparation)' : '';
+	
+	return str;
+}
+
+//test de la méthode Avion.toString 
+
+console.log(boeing.toString());
+london += london.ajoutAvion(boeing);
+document.write(london);
+</script>
+</head>
+<body>
+	<p id="main"></p>
+</body>
+</html>

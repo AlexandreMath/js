@@ -1,0 +1,73 @@
+<!--Alexandre MATHIEU-->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>&Eacute;nonc&eacute; 3 - jQuery</title>
+<style>
+	.special { background-color:lightblue; }
+	.special { background-color:pink; }
+	td { border:1px solid silver; padding:5px; }
+</style>
+<script src="script/jquery-1.11.3.min.js"></script>
+<script>
+$(function(){
+
+	$("table tr").click(function(){
+		$(this).fadeOut('slow', function(){
+			$("#message").text('Ligne masquée');
+		});
+	});
+	
+	$("input[name='data']").blur(function(){
+		var text = $(this).val();
+		$("tr td:last-child").append(text);
+	});
+	
+	
+	$("#content p.special").removeClass().addClass("important");
+	
+});
+</script>
+</head>
+<body>
+<table>
+	<tr>
+		<td>Ligne 1 - Col 1</td>
+		<td>Ligne 1 - Col 2</td>
+	</tr>
+	<tr>
+		<td>Ligne 2 - Col 1</td>
+		<td>Ligne 2 - Col 2</td>
+	</tr>
+	<tr>
+		<td>Ligne 3 - Col 1</td>
+		<td>Ligne 3 - Col 2</td>
+	</tr>
+	<tr>
+		<td>Ligne 4 - Col 1</td>
+		<td>Ligne 4 - Col 2</td>
+	</tr>
+</table>
+<form action="#" method="get">
+	<div>
+		<input type="text" name="data" />
+	</div>
+</form>
+<p id="message"></p>
+<section>
+	<p class="special">Blablabla</p>
+	<p>Blablabla</p>
+<section>
+<section id="content">
+	<p>Blablabla</p>
+	<p class="special">Blablabla</p>
+	<p>Blablabla</p>
+	<p>Blablabla</p>
+	<p class="urgent">Blablabla</p>
+	<p class="special">Blablabla</p>
+	<p class="special">Blablabla</p>
+<section>
+<p class="special">Blablabla</p>
+</body>
+</html>
